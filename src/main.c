@@ -17,12 +17,13 @@ int main(int argc, char **argv)
     int pid;
     int fdchild;
     int fdparent;
+    int ret_exec;
 
-    pid = fork();
+    pid = fork(); // child created
     if (pid == 0)
     {
         fdchild = open(argv[1], O_RDONLY); //open  file1
-        execve(argv[2]); // exec cmd 1
+        ret_exec = execve("/usr/bin/", argv[2], env??); // exec cmd 1
     }
     else
     {
