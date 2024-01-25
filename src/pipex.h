@@ -25,8 +25,7 @@
 void	check_arg(int argc, char **argv, char **envp);
 char	*find_path(char *argv, char **envp);
 char	**find_paths(int argc, char **argv, char **envp);
-char	*find_flag(char *argv);
-char	**find_flags(int argc, char **argv);
+char	**find_flags(char *argv);
 void	free_tabs(char **str);
 int		size_tab(char **str);
 
