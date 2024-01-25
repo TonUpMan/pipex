@@ -7,6 +7,11 @@ OBJ_DIR = obj
 #OBJ_BONUS_DIR = obj_bonus
 
 SRCS := main.c \
+	parsing.c \
+	utils.c \
+	path_utils.c \
+	cmd_utils.c \
+
 
 #SRCS_BONUS := 
 

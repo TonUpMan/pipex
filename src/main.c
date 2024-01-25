@@ -12,34 +12,20 @@
 
 #include "pipex.h"
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
-    int pid;
-    int fdchild;
-    int fdparent;
-    int ret_exec;
+	char	**path;
+	char 	**flags;
+	int		i;
+	int		fd1;
 
-    pid = fork(); // child created
-    if (pid == 0)
-    {
-        fdchild = open(argv[1], O_RDONLY); //open  file1
-        ret_exec = execve("/usr/bin/", argv[2], env??); // exec cmd 1
-    }
-    else
-    {
-        wait(0); // parent wait child end
-
-    }
-    if (pid == 0)
-    {
-        dup2(fdchild, pipe(fd[0])); // enter pipe 
-        close(fdchild);
-    }
-    else
-    {
-        dup2(pipe(fd[1]), fdparent); // end pipe
-        close(pipe(fd[1])); 
-        execve(argv[3]) //exec cmd 2
-        //write in file 2
-    }
+	i = 0;
+	check_arg(argc, argv, envp);
+	flags = find_flags(argc, argv);
+	path = find_paths(argc, argv, envp);
+	fd1 = open(argv[1], O_RDONLY);
+	dup2(fd1, 0);
+	close(fd1);
+	execve(path[0], &flags[0], envp);
+	return (0);
 }
