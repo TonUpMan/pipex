@@ -22,10 +22,11 @@
 # include <sys/wait.h>
 # include "../libft/libft.h"
 
-void	check_arg(int argc, char **argv, char **envp);
-char	*find_path(char *argv, char **envp);
-char	**find_paths(int argc, char **argv, char **envp);
-char	**find_flags(char *argv);
+void	check_arg(int argc, char **argv);
+char	*find_path(char **cmd, char **envp);
+void	exec_cmd(char *path, char **cmd, char **envp);
+void	childin(char **argv, char **envp, int *pipefd);
+void	childout(char **argv, char **envp, int *pipefd);
 void	free_tabs(char **str);
 int		size_tab(char **str);
 

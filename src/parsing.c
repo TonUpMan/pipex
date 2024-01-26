@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qdeviann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/26 23:28:41 by qdeviann          #+#    #+#             */
+/*   Updated: 2024/01/26 23:29:57 by qdeviann         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 static int	full_space(char *argv)
 {
 	int	len;
-	int check;
+	int	check;
 	int	i;
 
 	len = ft_strlen(argv);
@@ -29,40 +41,37 @@ static void	check_empty(int argc, char **argv)
 	{
 		if (!full_space(argv[i]))
 		{
-			ft_printf("argument vide!");
+			ft_printf("empty argument");
 			exit(0);
-		}	
+		}
 		i++;
 	}
 }
 
-static void	valid_fd(char **argv)
+static void	valid_file(int argc, char **argv)
 {
-	int fd;
-
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
+	if (access(argv[1], F_OK | R_OK) == -1)
 	{
-		ft_printf("fd invalide!");
+		perror("infile don't exist");
 		exit(0);
 	}
-	close(fd);
+	if (access(argv[argc - 1], F_OK | W_OK) == -1)
+	{
+		perror("outfile don't exist");
+		exit(0);
+	}
 }
 
-void	check_arg(int argc, char **argv, char **envp)
+void	check_arg(int argc, char **argv)
 {
 	int	i;
 
 	i = 2;
-	check_empty(argc, argv);
-	valid_fd(argv);
-	while (i < argc - 2)
+	if (argc != 5)
 	{
-		if(find_path(argv[i], envp) == NULL)
-		{
-			ft_printf("path non valide!");
-			exit(0);
-		}	
-		i++;
+		ft_printf("not enough arguments");
+		exit(0);
 	}
+	check_empty(argc, argv);
+	valid_file(argc, argv);
 }
