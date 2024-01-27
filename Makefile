@@ -23,7 +23,7 @@ OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 #OBJ_BONUS := $(SRCS_BONUS:$(SRC_BONUS_DIR)/%.c=$(OBJ_BONUS_DIR)/%.o)
 
 
-NAME = pipex
+NAME = ./pipex
 
 
 CC = clang
@@ -39,8 +39,8 @@ $(NAME): $(OBJS)
 	@echo "Pipex : \c"
 	@${CC} ${OBJS} ./libft/libft.a -o ${NAME}
 	@echo "$(GREEN)COMPILED$(RESET)"
-#	@echo "Norm error detected : \c"
-#	@echo | norminette | grep "Error" | wc -l
+	@echo "Norm error detected : \c"
+	@echo | norminette | grep "Error" | wc -l
 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c

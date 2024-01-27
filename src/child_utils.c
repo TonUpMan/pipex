@@ -30,11 +30,19 @@ void	childin(char **argv, char **envp, int *pipefd)
 	cmd = ft_split(argv[2], ' ');
 	path = find_path(cmd, envp);
 	fd1 = open(argv[1], O_RDONLY);
+	if (fd1 == -1)
+	{
+		perror("error open file1");
+		exit(0);
+	}
 	dup2(fd1, 0);
 	close(fd1);
 	close(pipefd[0]);
 	dup2(pipefd[1], 1);
+	close(pipefd[1]);
 	exec_cmd(path, cmd, envp);
+	free_tabs(cmd);
+	free(path);
 }
 
 void	childout(char **argv, char **envp, int *pipefd)
@@ -47,8 +55,16 @@ void	childout(char **argv, char **envp, int *pipefd)
 	path = find_path(cmd, envp);
 	close(pipefd[1]);
 	dup2(pipefd[0], 0);
+	close(pipefd[0]);
 	fd2 = open(argv[4], O_WRONLY);
+	if (fd2 == -1)
+	{
+		perror("error open file2");
+		exit(0);
+	}
 	dup2(fd2, 1);
 	close(fd2);
 	exec_cmd(path, cmd, envp);
+	free_tabs(cmd);
+	free(path);
 }

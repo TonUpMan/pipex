@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe error");
-		exit(0);
+		exit(2);
 	}
 	pid1 = fork();
 	if (pid1 == 0)

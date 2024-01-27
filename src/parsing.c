@@ -42,7 +42,7 @@ static void	check_empty(int argc, char **argv)
 		if (!full_space(argv[i]))
 		{
 			ft_printf("empty argument");
-			exit(0);
+			exit(2);
 		}
 		i++;
 	}
@@ -58,7 +58,7 @@ static void	valid_file(int argc, char **argv)
 	if (access(argv[argc - 1], F_OK | W_OK) == -1)
 	{
 		perror("outfile don't exist");
-		exit(0);
+		exit(2);
 	}
 }
 
@@ -70,7 +70,7 @@ void	check_arg(int argc, char **argv)
 	if (argc != 5)
 	{
 		ft_printf("not enough arguments");
-		exit(0);
+		exit(2);
 	}
 	check_empty(argc, argv);
 	valid_file(argc, argv);
