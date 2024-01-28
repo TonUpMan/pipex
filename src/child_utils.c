@@ -16,55 +16,63 @@ void	exec_cmd(char *path, char **cmd, char **envp)
 {
 	if (execve(path, cmd, envp) == -1)
 	{
-		perror("execve error");
-		return ;
+		free_all(path, cmd);
+		mes_error("execve error", errno);
 	}
+}
+
+void	pipe_in(int *pipefd)
+{
+	close(pipefd[0]);
+	dup2(pipefd[1], 1);
+	close(pipefd[1]);
+}
+
+void	pipe_out(int *pipefd)
+{
+	close(pipefd[1]);
+	dup2(pipefd[0], 0);
+	close(pipefd[0]);
 }
 
 void	childin(char **argv, char **envp, int *pipefd)
 {
 	char	**cmd;
 	char	*path;
-	int		fd1;
+	int		fdin;
 
 	cmd = ft_split(argv[2], ' ');
 	path = find_path(cmd, envp);
-	fd1 = open(argv[1], O_RDONLY);
-	if (fd1 == -1)
+	fdin = open(argv[1], O_RDONLY);
+	if (fdin == -1)
 	{
-		perror("error open file1");
-		exit(0);
+		free_all(path, cmd);
+		mes_error("fdin error", errno);
 	}
-	dup2(fd1, 0);
-	close(fd1);
-	close(pipefd[0]);
-	dup2(pipefd[1], 1);
-	close(pipefd[1]);
+	dup2(fdin, 0);
+	close(fdin);
+	pipe_in(pipefd);
 	exec_cmd(path, cmd, envp);
-	free_tabs(cmd);
-	free(path);
+	free_all(path, cmd);
 }
 
 void	childout(char **argv, char **envp, int *pipefd)
 {
 	char	**cmd;
 	char	*path;
-	int		fd2;
+	int		fdout;
 
 	cmd = ft_split(argv[3], ' ');
 	path = find_path(cmd, envp);
-	close(pipefd[1]);
-	dup2(pipefd[0], 0);
-	close(pipefd[0]);
-	fd2 = open(argv[4], O_WRONLY);
-	if (fd2 == -1)
+	pipe_out(pipefd);
+	fdout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fdout == -1)
 	{
-		perror("error open file2");
-		exit(0);
+		free_all(path, cmd);
+		mes_error("fdout error", errno);
 	}
-	dup2(fd2, 1);
-	close(fd2);
+	dup2(fdout, 1);
+	close(fdout);
 	exec_cmd(path, cmd, envp);
-	free_tabs(cmd);
-	free(path);
+	free_all(path, cmd);
 }

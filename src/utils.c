@@ -12,6 +12,18 @@
 
 #include "pipex.h"
 
+void	free_all(char *str, char **tab)
+{
+	free(str);
+	free_tabs(tab);
+}
+
+void	mes_error(char *str, int code)
+{
+	perror(str);
+	exit(code);
+}
+
 int	size_tab(char **str)
 {
 	int	i;

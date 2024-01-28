@@ -27,6 +27,10 @@ char	*find_path(char **cmd, char **envp);
 void	exec_cmd(char *path, char **cmd, char **envp);
 void	childin(char **argv, char **envp, int *pipefd);
 void	childout(char **argv, char **envp, int *pipefd);
+void	pipe_in(int *pipefd);
+void	pipe_out(int *pipefd);
+void	free_all(char *str, char **tab);
+void	mes_error(char *str, int code);
 void	free_tabs(char **str);
 int		size_tab(char **str);
 
