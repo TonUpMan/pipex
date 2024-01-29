@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-static char	**find_envpath(char **envp, char **cmd)
+static char	**find_envpath(char **envp)
 {
 	int		i;
 	char	*tmp;
@@ -30,9 +30,7 @@ static char	**find_envpath(char **envp, char **cmd)
 		}
 		i++;
 	}
-	free_tabs(cmd);
-	ft_putstr_fd("Unfound Path", 2);
-	exit(2);
+	return (NULL);
 }
 
 static int	ft_access(char *path, char *cmds)
@@ -41,7 +39,7 @@ static int	ft_access(char *path, char *cmds)
 	char	*cmd;
 
 	cmd = ft_strjoin(path, cmds);
-	check = access(cmd, F_OK);
+	check = access(cmd, F_OK | X_OK);
 	free(cmd);
 	if (check == 0)
 		return (1);
@@ -57,7 +55,7 @@ char	*find_path(char **cmd, char **envp)
 	char	*result;
 
 	i = 0;
-	paths = find_envpath(envp, cmd);
+	paths = find_envpath(envp);
 	while (paths[i])
 	{
 		tmp = ft_strjoin(paths[i], "/");
@@ -70,8 +68,6 @@ char	*find_path(char **cmd, char **envp)
 		free(tmp);
 		i++;
 	}
-	free_tabs(cmd);
 	free_tabs(paths);
-	mes_error("command not found", 127);
 	return (0);
 }

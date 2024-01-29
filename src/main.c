@@ -20,21 +20,20 @@ int	main(int argc, char **argv, char **envp)
 
 	check_arg(argc, argv);
 	if (pipe(pipefd) == -1)
-		mes_error("pipe error", errno);
+		mes_error("pipe", errno);
 	pid1 = fork();
 	if (pid1 == -1)
-		mes_error("childin error", errno);
+		mes_error("fork", errno);
 	if (pid1 == 0)
 		childin(argv, envp, pipefd);
 	if (pid1 != 0)
 	{
 		pid2 = fork();
 		if (pid2 == -1)
-			mes_error("childout error", errno);
+			mes_error("fork", errno);
 		if (pid2 == 0)
 			childout(argv, envp, pipefd);
-		close(pipefd[0]);
-		close(pipefd[1]);
+		pipe_use(pipefd, 2);
 	}
 	return (0);
 }

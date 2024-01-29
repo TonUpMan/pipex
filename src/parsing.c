@@ -41,8 +41,8 @@ static void	check_empty(int argc, char **argv)
 	{
 		if (!full_space(argv[i]))
 		{
-			ft_putstr_fd("empty argument", 2);
-			exit(3);
+			ft_putstr_fd("empty argument\n", 2);
+			exit(2);
 		}
 		i++;
 	}
@@ -55,10 +55,10 @@ void	check_arg(int argc, char **argv)
 	i = 2;
 	if (argc != 5)
 	{
-		ft_putstr_fd("not enough arguments", 2);
+		ft_putstr_fd("not enough arguments\n", 2);
 		exit(4);
 	}
 	check_empty(argc, argv);
 	if (access(argv[1], F_OK | R_OK) == -1)
-		mes_error("infile error", errno);
+		mes_error("access", errno);
 }

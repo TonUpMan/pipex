@@ -12,67 +12,73 @@
 
 #include "pipex.h"
 
-void	exec_cmd(char *path, char **cmd, char **envp)
+void	exec_cmd(char *argv, char **envp)
 {
-	if (execve(path, cmd, envp) == -1)
+	char	**cmd;
+	char	*path;
+
+	cmd = ft_split(argv, ' ');
+	if (cmd == NULL)
+	{
+		free_tabs(cmd);
+		ft_putstr_fd("command not found\n", 2);
+		exit(2);
+	}
+	path = find_path(cmd, envp);
+	if (path == NULL)
 	{
 		free_all(path, cmd);
-		mes_error("execve error", errno);
+		ft_putstr_fd("command not found\n", 2);
+		exit(2);
 	}
+	execve(path, cmd, envp);
+	free_all(path, cmd);
+	perror("execve");
 }
 
-void	pipe_in(int *pipefd)
+void	pipe_use(int *pipefd, int mode)
 {
-	close(pipefd[0]);
-	dup2(pipefd[1], 1);
-	close(pipefd[1]);
-}
-
-void	pipe_out(int *pipefd)
-{
-	close(pipefd[1]);
-	dup2(pipefd[0], 0);
-	close(pipefd[0]);
+	if (mode == 2)
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+	}
+	if (mode == 1)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], 1);
+		close(pipefd[1]);
+	}
+	if (mode == 0)
+	{
+		close(pipefd[1]);
+		dup2(pipefd[0], 0);
+		close(pipefd[0]);
+	}
 }
 
 void	childin(char **argv, char **envp, int *pipefd)
 {
-	char	**cmd;
-	char	*path;
 	int		fdin;
 
-	cmd = ft_split(argv[2], ' ');
-	path = find_path(cmd, envp);
-	fdin = open(argv[1], O_RDONLY);
+	fdin = open(argv[1], O_RDONLY, 0644);
 	if (fdin == -1)
-	{
-		free_all(path, cmd);
-		mes_error("fdin error", errno);
-	}
+		mes_error("open", errno);
 	dup2(fdin, 0);
 	close(fdin);
-	pipe_in(pipefd);
-	exec_cmd(path, cmd, envp);
-	free_all(path, cmd);
+	pipe_use(pipefd, 1);
+	exec_cmd(argv[2], envp);
 }
 
 void	childout(char **argv, char **envp, int *pipefd)
 {
-	char	**cmd;
-	char	*path;
 	int		fdout;
 
-	cmd = ft_split(argv[3], ' ');
-	path = find_path(cmd, envp);
-	pipe_out(pipefd);
+	pipe_use(pipefd, 0);
 	fdout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fdout == -1)
-	{
-		free_all(path, cmd);
-		mes_error("fdout error", errno);
-	}
+		mes_error("open", errno);
 	dup2(fdout, 1);
 	close(fdout);
-	exec_cmd(path, cmd, envp);
-	free_all(path, cmd);
+	exec_cmd(argv[3], envp);
 }
