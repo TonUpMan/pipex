@@ -56,7 +56,7 @@ void	check_arg(int argc, char **argv)
 	if (argc != 5)
 	{
 		ft_putstr_fd("not enough arguments\n", 2);
-		exit(4);
+		exit(2);
 	}
 	check_empty(argc, argv);
 	if (access(argv[1], F_OK | R_OK) == -1)

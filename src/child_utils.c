@@ -17,13 +17,7 @@ void	exec_cmd(char *argv, char **envp)
 	char	**cmd;
 	char	*path;
 
-	cmd = ft_split(argv, ' ');
-	if (cmd == NULL)
-	{
-		free_tabs(cmd);
-		ft_putstr_fd("command not found\n", 2);
-		exit(2);
-	}
+	cmd = find_cmd(argv);
 	path = find_path(cmd, envp);
 	if (path == NULL)
 	{
