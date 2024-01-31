@@ -17,17 +17,20 @@ void	exec_cmd(char *argv, char **envp)
 	char	**cmd;
 	char	*path;
 
-	cmd = find_cmd(argv);
+	if (count_quote(argv))
+		cmd = split_quote(argv);
+	else
+		cmd = find_cmd(argv);
 	path = find_path(cmd, envp);
 	if (path == NULL)
 	{
 		free_all(path, cmd);
-		ft_putstr_fd("command not found\n", 2);
-		exit(2);
+		ft_putendl_fd("command not found", 2);
+		exit(-1);
 	}
 	execve(path, cmd, envp);
 	free_all(path, cmd);
-	perror("execve");
+	mes_error("execve", errno);
 }
 
 void	pipe_use(int *pipefd, int mode)

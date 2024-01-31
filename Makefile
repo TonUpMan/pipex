@@ -11,6 +11,7 @@ SRCS := main.c \
 	utils.c \
 	path_utils.c \
 	child_utils.c \
+	split_quote.c \
 
 
 #SRCS_BONUS := 

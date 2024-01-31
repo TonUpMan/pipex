@@ -18,13 +18,15 @@
 # include <string.h>
 # include <fcntl.h>
 # include <errno.h>
-# include <sys/types.h>
 # include <sys/wait.h>
+#include <sys/types.h>
 # include "../libft/libft.h"
 
 void	check_arg(int argc, char **argv);
 char	**find_cmd(char *argv);
 char	*find_path(char **cmd, char **envp);
+int		count_quote(char *argv);
+char	**split_quote(char *argv);
 void	exec_cmd(char *argv, char **envp);
 void	childin(char **argv, char **envp, int *pipefd);
 void	childout(char **argv, char **envp, int *pipefd);
