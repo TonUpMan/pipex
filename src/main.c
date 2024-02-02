@@ -15,7 +15,6 @@
 int	main(int argc, char **argv, char **envp)
 {
 	pid_t		pid1;
-	pid_t		pid2;
 	int			pipefd[2];
 
 	check_arg(argc, argv);
@@ -25,27 +24,17 @@ int	main(int argc, char **argv, char **envp)
 	if (pid1 == -1)
 		mes_error("fork", errno);
 	if (pid1 == 0)
-	{
-		//ft_printf("pid1 avant child=%d\n\n", pid1);
 		childin(argv, envp, pipefd);
-		//ft_printf("pid1 apres child=%d\n\n", pid1);
-	}
 	if (pid1 != 0)
 	{
-		//ft_printf("pid1 avant wait=%d\n\n", pid1);
-		waitpid(pid1, 0, -1);
-		//ft_printf("pid1 apres wait=%d\n\n", pid1);
-		pid2 = fork();
-		if (pid2 == -1)
+		pid1 = fork();
+		if (pid1 == -1)
 			mes_error("fork", errno);
-		if (pid2 == 0)
-		{
-			//ft_printf("pid2 avant child=%d\n\n", pid2);
+		if (pid1 == 0)
 			childout(argv, envp, pipefd);
-			//ft_printf("pid2 apres child=%d\n\n", pid2);
-		}
-		//ft_printf("pid2(parent)=%d\n", pid1);
-		pipe_use(pipefd, 2);
+		if (pid1 != 0)
+			pipe_use(pipefd, 2);
 	}
+	waitpid(-1, NULL, 0);
 	return (0);
 }

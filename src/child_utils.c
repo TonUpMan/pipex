@@ -21,13 +21,7 @@ void	exec_cmd(char *argv, char **envp)
 		cmd = split_quote(argv);
 	else
 		cmd = find_cmd(argv);
-	path = find_path(cmd, envp);
-	if (path == NULL)
-	{
-		free_all(path, cmd);
-		ft_putendl_fd("command not found", 2);
-		exit(-1);
-	}
+	path = check_cmd(argv, cmd, envp);
 	execve(path, cmd, envp);
 	free_all(path, cmd);
 	mes_error("execve", errno);
@@ -60,7 +54,12 @@ void	childin(char **argv, char **envp, int *pipefd)
 
 	fdin = open(argv[1], O_RDONLY, 0644);
 	if (fdin == -1)
-		mes_error("open", errno);
+	{
+		perror("open");
+		pipe_use(pipefd, 1);
+		ft_printf(NULL);
+		exit(0);
+	}
 	dup2(fdin, 0);
 	close(fdin);
 	pipe_use(pipefd, 1);
@@ -71,11 +70,11 @@ void	childout(char **argv, char **envp, int *pipefd)
 {
 	int		fdout;
 
-	pipe_use(pipefd, 0);
 	fdout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fdout == -1)
 		mes_error("open", errno);
 	dup2(fdout, 1);
 	close(fdout);
+	pipe_use(pipefd, 0);
 	exec_cmd(argv[3], envp);
 }

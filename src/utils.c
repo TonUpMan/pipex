@@ -24,16 +24,6 @@ void	mes_error(char *str, int code)
 	exit(code);
 }
 
-int	size_tab(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
 void	free_tabs(char **str)
 {
 	int	i;

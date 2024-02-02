@@ -12,22 +12,6 @@
 
 #include "pipex.h"
 
-char	**find_cmd(char *argv)
-{
-	char	**result;
-	char	*tmp;
-
-	tmp = ft_strrchr(argv, '/');
-	if (tmp == NULL)
-		result = ft_split(argv, ' ');
-	else
-	{
-		tmp += 1;
-		result = ft_split(tmp, ' ');
-	}
-	return (result);
-}
-
 static char	**find_envpath(char **envp)
 {
 	int		i;

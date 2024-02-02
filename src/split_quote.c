@@ -28,7 +28,7 @@ int	count_quote(char *argv)
 	if ((quote % 2) != 0)
 	{
 		ft_putendl_fd("not valid option", 2);
-		exit(2);
+		exit(EXIT_FAILURE);
 	}
 	return (quote);
 }

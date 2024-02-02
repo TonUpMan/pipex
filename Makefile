@@ -10,6 +10,7 @@ SRCS := main.c \
 	parsing.c \
 	utils.c \
 	path_utils.c \
+	cmd_utils.c \
 	child_utils.c \
 	split_quote.c \
 

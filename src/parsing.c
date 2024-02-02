@@ -42,7 +42,7 @@ static void	check_empty(int argc, char **argv)
 		if (!full_space(argv[i]))
 		{
 			ft_putendl_fd("empty argument", 2);
-			exit(2);
+			exit(EXIT_FAILURE);
 		}
 		i++;
 	}
@@ -59,6 +59,4 @@ void	check_arg(int argc, char **argv)
 		exit(2);
 	}
 	check_empty(argc, argv);
-	if (access(argv[1], F_OK | R_OK) == -1)
-		mes_error("access", errno);
 }
