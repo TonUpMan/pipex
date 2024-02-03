@@ -6,7 +6,7 @@
 /*   By: qdeviann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 23:32:21 by qdeviann          #+#    #+#             */
-/*   Updated: 2024/02/03 00:07:27 by qdeviann         ###   ########.fr       */
+/*   Updated: 2024/02/03 22:55:06 by qdeviann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	childin(char **argv, char **envp, int *pipefd)
 	exec_cmd(argv[2], envp);
 }
 
-void	childout(char **argv, int argc, char **envp, int *pipefd)
+void	childout(char **argv, int argc, char **envp)
 {
 	int		fdout;
 
@@ -75,15 +75,11 @@ void	childout(char **argv, int argc, char **envp, int *pipefd)
 		mes_error("open", errno);
 	dup2(fdout, 1);
 	close(fdout);
-	pipe_use(pipefd, 0);
 	exec_cmd(argv[argc - 2], envp);
 }
 
-void	child_between(char *argv, char **envp, int *pipefd)
+void	child_btw(int *pipefd, char *argv, char **envp)
 {
-	dup2(pipefd[0], 0);
-	close(pipefd[0]);
-	dup2(pipefd[1], 1);
-	close(pipefd[1]);
+	pipe_use(pipefd, 1);
 	exec_cmd(argv, envp);
 }

@@ -31,15 +31,12 @@ OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 OBJ_BONUS := $(SRCS_BONUS:$(SRC_BONUS_DIR)/%.c=$(OBJ_BONUS_DIR)/%.o)
 
 NAME = ./pipex
-NAME_BONUS = ./pipex
 
 CC = clang
 
 CFLAGS = -Wall -Wextra -Werror -I include -g
 
 all: $(NAME)
-
-bonus: $(NAME_BONUS)
 
 $(NAME): $(OBJS)
 	@echo "LIBFT COMPILATION :\c"
@@ -51,12 +48,12 @@ $(NAME): $(OBJS)
 	@echo "Norm error detected : \c"
 	@echo | norminette | grep "Error" | wc -l
 
-$(NAME_BONUS): $(OBJ_BONUS)
+bonus: $(OBJ_BONUS)
 	@echo "LIBFT COMPILATION :\c"
 	@${MAKE} -C ./libft >/dev/null
 	@echo "$(GREEN)COMPILED$(RESET)"
 	@echo "Pipex_bonus : \c"
-	@${CC} ${OBJ_BONUS} ./libft/libft.a -o ${NAME_BONUS}
+	@${CC} ${OBJ_BONUS} ./libft/libft.a -o ${NAME}
 	@echo "$(GREEN)COMPILED$(RESET)"
 	@echo "Norm error detected : \c"
 	@echo | norminette | grep "Error" | wc -l
