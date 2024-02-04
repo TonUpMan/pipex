@@ -22,6 +22,8 @@ SRCS_BONUS := main_bonus.c \
 	cmd_utils_bonus.c \
 	child_utils_bonus.c \
 	split_quote_bonus.c \
+	here_utils.c \
+	get_next_limiter.c \
 
 	
 SRCS := $(SRCS:%.c=$(SRC_DIR)/%.c)	

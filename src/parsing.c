@@ -41,7 +41,7 @@ static void	check_empty(int argc, char **argv)
 	{
 		if (!full_space(argv[i]))
 		{
-			ft_putendl_fd("empty argument", 2);
+			ft_putendl_fd("error: empty argument", 2);
 			exit(EXIT_FAILURE);
 		}
 		i++;
@@ -55,8 +55,8 @@ void	check_arg(int argc, char **argv)
 	i = 2;
 	if (argc != 5)
 	{
-		ft_putendl_fd("not enough arguments", 2);
-		exit(2);
+		ft_putendl_fd("expected: infile cmd1 cmd2 outfile", 2);
+		exit(EXIT_FAILURE);
 	}
 	check_empty(argc, argv);
 }

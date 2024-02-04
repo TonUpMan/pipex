@@ -12,15 +12,12 @@
 
 #include "pipex_bonus.h"
 
-int	main(int argc, char **argv, char **envp)
+void	make_child(int argc, char **argv, char **envp, int i)
 {
-	pid_t		pid1;
 	int			pipefd[2];
-	int			i;
+	pid_t		pid1;
 
-	i = 2;
-	check_arg(argc, argv);
-	while (i != argc -2)
+	while (i != (argc - 2))
 	{
 		if (pipe(pipefd) == -1)
 			mes_error("pipe", errno);
@@ -35,5 +32,39 @@ int	main(int argc, char **argv, char **envp)
 	}
 	childout(argv, argc, envp);
 	pipe_use(pipefd, 2);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	int		i;
+
+	if(!ft_strcmp(argv[1], "here_doc"))
+	{
+		i = 4;
+		get_next_limiter(0, argv[2]);
+		make_child(argc, argv, envp, i);
+	}
+	else
+	{
+		i = 2;
+		check_arg(argc, argv);
+		make_child(argc, argv, envp, i);
+	}
 	return (0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
