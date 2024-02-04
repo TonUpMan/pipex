@@ -22,7 +22,7 @@ SRCS_BONUS := main_bonus.c \
 	cmd_utils_bonus.c \
 	child_utils_bonus.c \
 	split_quote_bonus.c \
-	here_utils.c \
+	here_utils_bonus.c \
 	get_next_limiter.c \
 
 	
@@ -36,7 +36,7 @@ NAME = ./pipex
 
 CC = clang
 
-CFLAGS = -Wall -Wextra -Werror -I include -g
+CFLAGS = -Wall -Wextra -Werror -Iinclude 
 
 all: $(NAME)
 

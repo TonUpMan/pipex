@@ -12,21 +12,23 @@
 
 #include "pipex_bonus.h"
 
-void	make_child(int argc, char **argv, char **envp, int i)
+void	make_child(int argc, char **argv, char **envp)
 {
+	int			i;
 	int			pipefd[2];
-	pid_t		pid1;
+	pid_t		pid;
 
+	i = 2;
 	while (i != (argc - 2))
 	{
 		if (pipe(pipefd) == -1)
 			mes_error("pipe", errno);
-		pid1 = fork();
-		if (pid1 == 0 && i == 2)
+		pid = fork();
+		if (pid == 0 && i == 2)
 			childin(argv, envp, pipefd);
-		else if (pid1 == 0 && i > 2 && i < argc - 2)
+		else if (pid == 0 && i > 2 && i < argc - 2)
 			child_btw(pipefd, argv[i], envp);
-		else if (pid1 != 0)
+		else if (pid != 0)
 			pipe_use(pipefd, 0);
 		i++;
 	}
@@ -36,19 +38,15 @@ void	make_child(int argc, char **argv, char **envp, int i)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		i;
-
 	if(!ft_strcmp(argv[1], "here_doc"))
 	{
-		i = 4;
-		get_next_limiter(0, argv[2]);
-		make_child(argc, argv, envp, i);
+		check_here_arg(argc, argv);
+		make_here(argc, argv, envp);
 	}
 	else
 	{
-		i = 2;
 		check_arg(argc, argv);
-		make_child(argc, argv, envp, i);
+		make_child(argc, argv, envp);
 	}
 	return (0);
 }

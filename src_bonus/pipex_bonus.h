@@ -23,6 +23,8 @@
 # include "../libft/libft.h"
 
 void	check_arg(int argc, char **argv);
+void	check_here_arg(int argc, char **argv);
+void	check_empty(int argc, char **argv);
 char	**find_cmd(char *argv);
 char	*find_path(char **cmd, char **envp);
 int		count_quote(char *argv);
@@ -30,7 +32,8 @@ int		ft_strcmp(char *s1, char *s2);
 void	get_next_limiter(int fd, char *limiter);
 char	**split_quote(char *argv);
 char	*check_cmd(char *argv, char **cmd, char **envp);
-void	make_child(int argc, char **argv, char **envp, int i);
+void	make_child(int argc, char **argv, char **envp);
+void	make_here(int argc, char **argv, char **envp);
 void	childin(char **argv, char **envp, int *pipefd);
 void	child_btw(int *pipefd, char *argv, char **envp);
 void	childout(char **argv, int argc, char **envp);
