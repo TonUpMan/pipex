@@ -14,7 +14,6 @@ SRCS := main.c \
 	child_utils.c \
 	split_quote.c \
 
-
 SRCS_BONUS := main_bonus.c \
 	parsing_bonus.c \
 	utils_bonus.c \
@@ -23,8 +22,6 @@ SRCS_BONUS := main_bonus.c \
 	child_utils_bonus.c \
 	split_quote_bonus.c \
 	here_utils_bonus.c \
-	#get_next_limiter.c \
-
 	
 SRCS := $(SRCS:%.c=$(SRC_DIR)/%.c)	
 SRCS_BONUS := $(SRCS_BONUS:%.c=$(SRC_BONUS_DIR)/%.c)
@@ -51,6 +48,7 @@ $(NAME): $(OBJS)
 	@echo | norminette | grep "Error" | wc -l
 
 bonus: $(OBJ_BONUS)
+	@rm -f $(NAME)
 	@echo "LIBFT COMPILATION :\c"
 	@${MAKE} -C ./libft >/dev/null
 	@echo "$(GREEN)COMPILED$(RESET)"
