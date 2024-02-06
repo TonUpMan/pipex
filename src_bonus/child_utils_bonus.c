@@ -6,7 +6,7 @@
 /*   By: qdeviann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 23:32:21 by qdeviann          #+#    #+#             */
-/*   Updated: 2024/02/03 22:55:06 by qdeviann         ###   ########.fr       */
+/*   Updated: 2024/02/06 02:05:46 by qdeviann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,38 +48,48 @@ void	pipe_use(int *pipefd, int mode)
 	}
 }
 
-void	childin(char **argv, char **envp, int *pipefd)
+void	childin(char **argv, char **envp, int *pipefd, int i)
 {
 	int		fdin;
 
 	fdin = open(argv[1], O_RDONLY, 0644);
 	if (fdin == -1)
-	{
-		perror("open");
-		pipe_use(pipefd, 1);
-		ft_printf(NULL);
-		exit(0);
-	}
+		mes_error("open", errno);
 	dup2(fdin, 0);
 	close(fdin);
 	pipe_use(pipefd, 1);
-	exec_cmd(argv[2], envp);
+	exec_cmd(argv[i], envp);
 }
 
-void	childout(char **argv, int argc, char **envp)
+void	child(char **argv, char **envp, int i)
+{
+	int		pipefd[2];
+	pid_t	pid;
+
+	if (pipe(pipefd) == -1)
+		mes_error("pipe", errno);
+	pid = fork();
+	if (pid == -1)
+		mes_error("fork", errno);
+	if (pid == 0 && i == 2)
+		childin(argv, envp, pipefd, i);
+	else if (pid == 0 && i > 2)
+	{
+		pipe_use(pipefd, 1);
+		exec_cmd(argv[i], envp);
+	}
+	else
+		pipe_use(pipefd, 0);
+}
+
+void	childout(int argc, char **argv, char **envp, int mode)
 {
 	int		fdout;
 
-	fdout = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fdout = ft_open(argc, argv, mode);
 	if (fdout == -1)
 		mes_error("open", errno);
 	dup2(fdout, 1);
 	close(fdout);
 	exec_cmd(argv[argc - 2], envp);
-}
-
-void	child_btw(int *pipefd, char *argv, char **envp)
-{
-	pipe_use(pipefd, 1);
-	exec_cmd(argv, envp);
 }

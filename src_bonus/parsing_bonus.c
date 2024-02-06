@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_bonus.c                                    :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qdeviann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 23:28:41 by qdeviann          #+#    #+#             */
-/*   Updated: 2024/02/03 00:08:10 by qdeviann         ###   ########.fr       */
+/*   Updated: 2024/01/26 23:29:57 by qdeviann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	full_space(char *argv)
 	return (1);
 }
 
-void	check_empty(int argc, char **argv)
+static void	check_empty(int argc, char **argv)
 {
 	int		i;
 
@@ -55,7 +55,20 @@ void	check_arg(int argc, char **argv)
 	i = 2;
 	if (argc < 5)
 	{
-		ft_putendl_fd("expected: infile cmd1 cmd2 ... cmdn outfile", 2);
+		ft_putendl_fd("expected: infile cmd1 cmd2 ... outfile", 2);
+		exit(EXIT_FAILURE);
+	}
+	check_empty(argc, argv);
+}
+
+void	check_here_arg(int argc, char **argv)
+{
+	int	i;
+
+	i = 2;
+	if (argc < 6)
+	{
+		ft_putendl_fd("expected: here_doc limiter cmd cmd2 ... outfile", 2);
 		exit(EXIT_FAILURE);
 	}
 	check_empty(argc, argv);

@@ -56,8 +56,6 @@ void	childin(char **argv, char **envp, int *pipefd)
 	if (fdin == -1)
 	{
 		perror("open");
-		pipe_use(pipefd, 1);
-		ft_printf(NULL);
 		exit(0);
 	}
 	dup2(fdin, 0);

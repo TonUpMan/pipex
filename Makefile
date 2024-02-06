@@ -23,7 +23,7 @@ SRCS_BONUS := main_bonus.c \
 	child_utils_bonus.c \
 	split_quote_bonus.c \
 	here_utils_bonus.c \
-	get_next_limiter.c \
+	#get_next_limiter.c \
 
 	
 SRCS := $(SRCS:%.c=$(SRC_DIR)/%.c)	
@@ -36,7 +36,7 @@ NAME = ./pipex
 
 CC = clang
 
-CFLAGS = -Wall -Wextra -Werror -Iinclude 
+CFLAGS = -Wall -Wextra -Werror -Iinclude -g
 
 all: $(NAME)
 

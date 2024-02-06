@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.h                                      :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qdeviann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 10:50:32 by qdeviann          #+#    #+#             */
-/*   Updated: 2024/02/03 00:08:37 by qdeviann         ###   ########.fr       */
+/*   Updated: 2024/01/22 10:50:37 by qdeviann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,19 @@
 
 void	check_arg(int argc, char **argv);
 void	check_here_arg(int argc, char **argv);
-void	check_empty(int argc, char **argv);
 char	**find_cmd(char *argv);
 char	*find_path(char **cmd, char **envp);
 int		count_quote(char *argv);
 int		ft_strcmp(char *s1, char *s2);
-void	get_next_limiter(int fd, char *limiter);
 char	**split_quote(char *argv);
+int		ft_open(int argc, char **argv, int mode);
 char	*check_cmd(char *argv, char **cmd, char **envp);
-void	make_child(int argc, char **argv, char **envp);
-void	make_here(int argc, char **argv, char **envp);
-void	childin(char **argv, char **envp, int *pipefd);
-void	child_btw(int *pipefd, char *argv, char **envp);
-void	childout(char **argv, int argc, char **envp);
 void	exec_cmd(char *argv, char **envp);
+void	make_here(char **argv);
+void	here_in(char **argv, int *pipefd);
+void	childin(char **argv, char **envp, int *pipefd, int i);
+void	child(char **argv, char **envp, int i);
+void	childout(int argc, char **argv, char **envp, int mode);
 void	pipe_use(int *pipefd, int mode);
 void	free_all(char *str, char **tab);
 void	mes_error(char *str, int code);

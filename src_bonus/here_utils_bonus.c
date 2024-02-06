@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_utils.c                                       :+:      :+:    :+:   */
+/*   here_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qdeviann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/04 00:40:47 by qdeviann          #+#    #+#             */
-/*   Updated: 2024/02/04 00:40:49 by qdeviann         ###   ########.fr       */
+/*   Created: 2024/02/06 02:04:24 by qdeviann          #+#    #+#             */
+/*   Updated: 2024/02/06 02:05:02 by qdeviann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
-void	check_here_arg(int argc, char **argv)
-{
-	int	i;
-
-	i = 2;
-	if (argc < 6)
-	{
-		ft_putendl_fd("expected: here_doc limiter cmd cmd1 outfile", 2);
-		exit(EXIT_FAILURE);
-	}
-	check_empty(argc, argv);
-}
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -37,34 +24,41 @@ int	ft_strcmp(char *s1, char *s2)
 		i++;
 	}
 	if (ft_strlen(s1) != ft_strlen(s2))
-		return (2);
+		return (-1);
 	return (0);
 }
 
-void	make_here(int argc, char **argv, char **envp)
+void	here_in(char **argv, int *pipefd)
 {
-	int		i;
+	char	*tmp;
+
+	pipe_use(pipefd, 1);
+	while (1)
+	{
+		tmp = get_next_line(0);
+		if (!ft_strncmp(tmp, argv[2], ft_strlen(argv[2])))
+		{
+			free(tmp);
+			exit(0);
+		}
+		ft_putstr_fd(tmp, 1);
+		free(tmp);
+	}
+}
+
+void	make_here(char **argv)
+{
 	int		pipefd[2];
 	pid_t	pid;
 
-	i = 3;
-	while(i != argc - 2)
+	if (pipe(pipefd) == -1)
+		mes_error("pipe", errno);
+	pid = fork();
+	if (pid == 0)
+		here_in(argv, pipefd);
+	else
 	{
-		if(pipe(pipefd) == -1)
-			mes_error("pipe", errno);
-		pid = fork();
-		if(pid == 0 && i == 3)
-		{
-			pipe_use(pipefd, 1);
-			get_next_limiter(0, argv[2]);
-			exec_cmd(argv[3], envp);
-		}
-		else if (pid == 0 && i > 3 && i < argc - 2)
-			child_btw(pipefd, argv[i], envp);
-		else if (pid != 0)
-			pipe_use(pipefd, 0);
-		i++;
+		pipe_use(pipefd, 0);
+		waitpid(-1, NULL, 0);
 	}
-	childout(argv, argc, envp);
-	pipe_use(pipefd, 2);
 }

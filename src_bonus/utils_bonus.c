@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qdeviann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 23:30:24 by qdeviann          #+#    #+#             */
-/*   Updated: 2024/02/03 00:09:00 by qdeviann         ###   ########.fr       */
+/*   Updated: 2024/01/26 23:32:06 by qdeviann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,15 @@ void	free_tabs(char **str)
 		i++;
 	}
 	free(str);
+}
+
+int	ft_open(int argc, char **argv, int mode)
+{
+	int	fd;
+
+	if (mode == 2)
+		fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (mode == 3)
+		fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	return (fd);
 }
