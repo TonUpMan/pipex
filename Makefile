@@ -12,7 +12,6 @@ SRCS := main.c \
 	path_utils.c \
 	cmd_utils.c \
 	child_utils.c \
-	split_quote.c \
 
 SRCS_BONUS := main_bonus.c \
 	parsing_bonus.c \
@@ -20,7 +19,6 @@ SRCS_BONUS := main_bonus.c \
 	path_utils_bonus.c \
 	cmd_utils_bonus.c \
 	child_utils_bonus.c \
-	split_quote_bonus.c \
 	here_utils_bonus.c \
 	
 SRCS := $(SRCS:%.c=$(SRC_DIR)/%.c)	
@@ -52,7 +50,7 @@ bonus: $(OBJ_BONUS)
 	@echo "LIBFT COMPILATION :\c"
 	@${MAKE} -C ./libft >/dev/null
 	@echo "$(GREEN)COMPILED$(RESET)"
-	@echo "Pipex_bonus : \c"
+	@echo "Bonus : \c"
 	@${CC} ${OBJ_BONUS} ./libft/libft.a -o ${NAME}
 	@echo "$(GREEN)COMPILED$(RESET)"
 	@echo "Norm error detected : \c"

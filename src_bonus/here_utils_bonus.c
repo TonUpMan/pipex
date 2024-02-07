@@ -35,6 +35,7 @@ void	here_in(char **argv, int *pipefd)
 	pipe_use(pipefd, 1);
 	while (1)
 	{
+		ft_putstr_fd("heredoc>", 0);
 		tmp = get_next_line(0);
 		if (!ft_strncmp(tmp, argv[2], ft_strlen(argv[2])))
 		{

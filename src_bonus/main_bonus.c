@@ -28,6 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		i = 2;
 		mode = 2;
+		check_arg(argc, argv);
 	}
 	while (i < argc - 2)
 	{

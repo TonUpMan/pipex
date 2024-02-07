@@ -17,11 +17,9 @@ void	exec_cmd(char *argv, char **envp)
 	char	**cmd;
 	char	*path;
 
-	if (count_quote(argv))
-		cmd = split_quote(argv);
-	else
-		cmd = find_cmd(argv);
-	path = check_cmd(argv, cmd, envp);
+	cmd = find_cmd(argv);
+	path = find_path(cmd, envp);
+	check_cmd(path, cmd);
 	execve(path, cmd, envp);
 	free_all(path, cmd);
 	mes_error("execve", errno);
