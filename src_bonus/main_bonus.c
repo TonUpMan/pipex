@@ -35,6 +35,8 @@ int	main(int argc, char **argv, char **envp)
 		child(argv, envp, i);
 		i++;
 	}
+	while (wait(NULL) > 0)
+		;
 	childout(argc, argv, envp, mode);
 	return (0);
 }

@@ -19,7 +19,7 @@ void	exec_cmd(char *argv, char **envp)
 
 	cmd = find_cmd(argv);
 	path = find_path(cmd, envp);
-	check_cmd(path, cmd);
+	check_cmd(path, cmd, argv);
 	execve(path, cmd, envp);
 	free_all(path, cmd);
 	mes_error("execve", errno);
@@ -54,6 +54,7 @@ void	childin(char **argv, char **envp, int *pipefd)
 	if (fdin == -1)
 	{
 		perror("open");
+		pipe_use(pipefd, 2);
 		exit(0);
 	}
 	dup2(fdin, 0);

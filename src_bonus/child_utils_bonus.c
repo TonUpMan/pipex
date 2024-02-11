@@ -52,7 +52,10 @@ void	childin(char **argv, char **envp, int *pipefd, int i)
 
 	fdin = open(argv[1], O_RDONLY, 0644);
 	if (fdin == -1)
+	{
+		pipe_use(pipefd, 2);
 		mes_error("open", errno);
+	}
 	dup2(fdin, 0);
 	close(fdin);
 	pipe_use(pipefd, 1);

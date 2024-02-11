@@ -25,7 +25,7 @@
 void	check_arg(int argc, char **argv);
 char	**find_cmd(char *argv);
 char	*find_path(char **cmd, char **envp);
-void	check_cmd(char *path, char **cmd);
+void	check_cmd(char *path, char **cmd, char *argv);
 void	exec_cmd(char *argv, char **envp);
 void	childin(char **argv, char **envp, int *pipefd);
 void	childout(char **argv, char **envp, int *pipefd);
