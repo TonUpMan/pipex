@@ -31,13 +31,20 @@ int	ft_strcmp(char *s1, char *s2)
 void	here_in(char **argv, int *pipefd)
 {
 	char	*tmp;
+	int		len;
 
+	len = ft_strlen(argv[2]);
 	pipe_use(pipefd, 1);
 	while (1)
 	{
 		ft_putstr_fd("heredoc>", 0);
 		tmp = get_next_line(0);
-		if (!ft_strncmp(tmp, argv[2], ft_strlen(argv[2])))
+		if (tmp == NULL)
+		{
+			free(tmp);
+			exit(0);
+		}
+		if (!ft_strncmp(tmp, argv[2], len) && ((int)ft_strlen(tmp) == len + 1))
 		{
 			free(tmp);
 			exit(0);

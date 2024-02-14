@@ -12,6 +12,12 @@
 
 #include "pipex_bonus.h"
 
+void	free_all_str(char *s1, char *s2)
+{
+	free(s1);
+	free(s2);
+}
+
 void	free_all(char *str, char **tab)
 {
 	free(str);

@@ -24,24 +24,25 @@ static char	*ft_join(char *save, char *buffer)
 static char	*ft_read(int fd, char *save)
 {
 	char	*buffer;
-	int		n_read;
+	int		r;
 
-	n_read = 1;
+	r = 1;
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 		return (NULL);
-	while (n_read != 0)
+	while (r != 0)
 	{
-		n_read = read(fd, buffer, BUFFER_SIZE);
-		if (n_read == -1)
+		r = read(fd, buffer, BUFFER_SIZE);
+		if (r == -1)
 		{
-			free(buffer);
-			free(save);
+			free_all_str(buffer, save);
 			return (NULL);
 		}
-		buffer[n_read] = 0;
+		if (r == 0)
+			break ;
+		buffer[r] = 0;
 		save = ft_join(save, buffer);
-		if (!save || ft_strchr(save, '\n') || n_read < BUFFER_SIZE)
+		if (!save || ft_strchr(save, '\n') || r < BUFFER_SIZE)
 			break ;
 	}
 	free(buffer);
@@ -73,8 +74,7 @@ static char	*ft_next_line(char *save)
 	next = ft_substr(save, j + 1, k - j);
 	if (!next[0])
 	{
-		free(next);
-		free(save);
+		free_all_str(next, save);
 		save = NULL;
 		return (NULL);
 	}
@@ -100,8 +100,7 @@ char	*get_next_line(int fd)
 	line = ft_line(save[fd]);
 	if (!line[0])
 	{
-		free(line);
-		free(save[fd]);
+		free_all_str(line, save[fd]);
 		save[fd] = NULL;
 		return (NULL);
 	}
