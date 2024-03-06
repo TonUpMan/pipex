@@ -17,7 +17,7 @@ int	main(int argc, char **argv, char **envp)
 	int		i;
 	int		mode;
 
-	if (!ft_strcmp(argv[1], "here_doc"))
+	if (argc > 1 && !ft_strcmp(argv[1], "here_doc"))
 	{
 		i = 3;
 		mode = 3;
@@ -35,8 +35,8 @@ int	main(int argc, char **argv, char **envp)
 		child(argv, envp, i);
 		i++;
 	}
+	childout(argc, argv, envp, mode);
 	while (wait(NULL) > 0)
 		;
-	childout(argc, argv, envp, mode);
 	return (0);
 }

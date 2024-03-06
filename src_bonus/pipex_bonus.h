@@ -28,7 +28,7 @@ char	**find_cmd(char *argv);
 char	*find_path(char **cmd, char **envp);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_open(int argc, char **argv, int mode);
-void	check_cmd(char *path, char **cmd);
+void	check_cmd(char *path, char **cmd, char *argv);
 void	exec_cmd(char *argv, char **envp);
 void	make_here(char **argv);
 void	here_in(char **argv, int *pipefd);

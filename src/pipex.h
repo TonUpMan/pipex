@@ -33,5 +33,6 @@ void	pipe_use(int *pipefd, int mode);
 void	free_all(char *str, char **tab);
 void	mes_error(char *str, int code);
 void	free_tabs(char **str);
+int		ft_access(char *path, char *cmds);
 
 #endif

@@ -33,7 +33,7 @@ static char	**find_envpath(char **envp)
 	return (NULL);
 }
 
-static int	ft_access(char *path, char *cmds)
+int	ft_access(char *path, char *cmds)
 {
 	int		check;
 	char	*cmd;

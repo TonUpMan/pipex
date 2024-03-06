@@ -12,17 +12,30 @@
 
 #include "pipex.h"
 
-void	exec_cmd(char *argv, char **envp)
+void	exec_cmd(char *content, char **envp)
 {
 	char	**cmd;
 	char	*path;
 
-	cmd = find_cmd(argv);
-	path = find_path(cmd, envp);
-	check_cmd(path, cmd, argv);
+	if (ft_strchr(content, '/'))
+	{
+		cmd = find_cmd(content);
+		if (cmd)
+			path = content;
+		else
+		{
+			ft_putendl_fd("no such file or directory", 2);
+			exit(0);
+		}
+	}
+	else
+	{
+		cmd = ft_split(content, ' ');
+		path = find_path(cmd, envp);
+	}
+	check_cmd(path, cmd, content);
 	execve(path, cmd, envp);
 	free_all(path, cmd);
-	mes_error("execve", errno);
 }
 
 void	pipe_use(int *pipefd, int mode)
